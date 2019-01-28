@@ -29,7 +29,7 @@ for line in lines("/proc/meminfo"):
         mem_free += parseInt(matches[1])
     elif line.match(re"SwapTotal:\s*(\d+)", matches):
         swap_total += parseInt(matches[0])
-    elif line.match(re"SwapFree:\s(\d+)", matches):
+    elif line.match(re"SwapFree:\s*(\d+)", matches):
         swap_free += parseInt(matches[0])
 
 var percentage: int
