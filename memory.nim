@@ -15,6 +15,8 @@
 import re, strutils, ospaths
 import colorscale
 
+const threshold = 0.40
+
 var
     mem_total:  int
     mem_free:   int
@@ -40,4 +42,5 @@ else:
 
 echo int(100*percentage), "%" # full_text
 echo int(100*percentage), "%" # short_text
-echo GreenToRed(percentage) # color
+if percentage >= threshold:
+    echo GreenToRed(percentage) # color

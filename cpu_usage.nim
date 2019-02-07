@@ -15,6 +15,8 @@
 import re, strutils, os
 import colorscale
 
+const threshold = 0.40
+
 proc sum(a: openArray[string]): int =
     for i in a:
         result += parseInt(i)
@@ -32,4 +34,5 @@ var (idle2, total2) = stats()
 var percentage = 1-(idle2-idle1)/(total2-total1)
 echo int(100*percentage), "%" # full_text
 echo int(100*percentage), "%" # short_text
-echo GreenToRed(percentage) # color
+if percentage >= threshold:
+    echo GreenToRed(percentage) # color
