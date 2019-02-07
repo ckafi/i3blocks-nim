@@ -15,8 +15,11 @@
 import strutils, ospaths, math, strformat
 import colorscale
 
+let threshold = if getEnv("threshold").len == 0: 0.0
+                else: getEnv("threshold").parseInt() / 100
+
 proc readInt(f: string): int =
-    open(f).readLine().parseInt()
+    readFile(f).strip().parseInt()
 
 let
     path = "/sys/class/power_supply/" & getEnv("BLOCK_INSTANCE") & "/"
@@ -48,5 +51,5 @@ if remaining_time > 0:
 else:
     echo short_text
 echo short_text
-if status == "D":
+if status == "D" and (capacity/100) < threshold:
     echo GreenToRed(1 - capacity/100)

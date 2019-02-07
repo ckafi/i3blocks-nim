@@ -15,7 +15,8 @@
 import re, strutils, os
 import colorscale
 
-const threshold = 0.40
+let threshold = if getEnv("threshold").len == 0: 1.0
+                else: getEnv("threshold").parseInt() / 100
 
 proc sum(a: openArray[string]): int =
     for i in a:
@@ -34,5 +35,5 @@ var (idle2, total2) = stats()
 var percentage = 1-(idle2-idle1)/(total2-total1)
 echo int(100*percentage), "%" # full_text
 echo int(100*percentage), "%" # short_text
-if percentage >= threshold:
+if percentage > threshold:
     echo GreenToRed(percentage) # color

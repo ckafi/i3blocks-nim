@@ -15,13 +15,15 @@
 import re, strutils, ospaths
 import colorscale
 
-const threshold = 0.40
+let threshold = if getEnv("threshold").len == 0: 1.0
+                else: getEnv("threshold").parseInt()/100
 
 var
     mem_total:  int
     mem_free:   int
     swap_total: int
     swap_free:  int
+    percentage: float
 
 for line in lines("/proc/meminfo"):
     var matches: array[2, string]
@@ -34,7 +36,6 @@ for line in lines("/proc/meminfo"):
     elif line.match(re"SwapFree:\s*(\d+)", matches):
         swap_free += parseInt(matches[0])
 
-var percentage: float
 if getEnv("BLOCK_INSTANCE") == "swap":
     percentage = 1-swap_free/swap_total
 else:
@@ -42,5 +43,5 @@ else:
 
 echo int(100*percentage), "%" # full_text
 echo int(100*percentage), "%" # short_text
-if percentage >= threshold:
+if percentage > threshold:
     echo GreenToRed(percentage) # color
