@@ -12,15 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import strformat
+import strformat, math
 
 # I would like to use ranges, but tuple of subranges is awkward in nim
 type
     HSV = tuple[h, s, v: int] # max (359,100,100)
     RGB = tuple[r, g, b: int] # max (255,255,255)
-
-proc `mod`(x:float, y:int): float =
-    result = x - float(int(x) div y * y)
 
 proc RGBasHex(input: RGB): string =
     let (r,g,b) = input
@@ -30,7 +27,7 @@ proc HSVtoRGB(input: HSV): RGB =
     var r, g, b: float
     let
         c = (input.v/100) * (input.s/100)
-        x = c * float(1 - abs((input.h / 60) mod 2 - 1))
+        x = c * (1 - abs((input.h / 60) mod 2 - 1))
         m = (input.v/100) - c
     case input.h div 60:
         of 0: (r,g,b) = (c,x,0.0)
