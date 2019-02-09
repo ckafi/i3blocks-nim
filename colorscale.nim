@@ -14,7 +14,7 @@
 
 import strformat, math
 
-# I would like to use ranges, but tuple of subranges is awkward in nim
+# I'd like to use ranges, but tuple of subranges is awkward in nim
 type
     HSV = tuple[h, s, v: int] # max (359,100,100)
     RGB = tuple[r, g, b: int] # max (255,255,255)
@@ -47,8 +47,10 @@ proc LerpHSV(a,b: HSV, t:float): HSV =
 
 
 const
-    green: HSV = (120,100,100)
-    red  : HSV = (0  ,100,100)
+    green_hsv: HSV = (120,100,100)
+    green_hex*     = HSVtoRGB(green_hsv).RGBasHex()  
+    red_hsv  : HSV = (0  ,100,100)
+    red_hex*       = HSVtoRGB(red_hsv).RGBasHex()  
 
 proc GreenToRed*(t:float): string =
-    RGBasHex(HSVtoRGB(LerpHSV(green,red,t)))
+    LerpHSV(green_hsv,red_hsv,t).HSVtoRGB().RGBasHex()
