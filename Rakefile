@@ -1,6 +1,6 @@
 require 'rake/clean'
 
-nim_files = Rake::FileList.new("memory.nim", "cpu_usage.nim", "battery.nim")
+nim_files = Rake::FileList.new("memory.nim", "cpu_usage.nim", "battery.nim", "loadavg.nim")
 
 task :default => :nim
 task :nim => nim_files.ext("")
