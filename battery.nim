@@ -23,24 +23,24 @@ proc readInt(f: string): int =
 
 let
     path = "/sys/class/power_supply/" & getEnv("BLOCK_INSTANCE") & "/"
-    status = if open(path & "status").readLine() == "Charging": "C" else: "D"
+    status = open(path & "status").readLine()
 
     capacity = readInt(path & "capacity")
     current_now = readInt(path & "current_now")
     charge_now = readInt(path & "charge_now")
     charge_full = readInt(path & "charge_full")
 
-var remaining_time: float
+var remaining_time = 0.0
 
-if status == "D":
+if status == "Discharging":
     remaining_time = charge_now/current_now
-else:
+elif status == "Charging":
     remaining_time = (charge_full - charge_now)/current_now
 
 let
     remaining_hours = int(remaining_time)
     remaining_minutes = int((remaining_time - floor(remaining_time)) * 60)
-    short_text = fmt"{capacity}% {status}"
+    short_text = fmt"{capacity}% {status[0]}"
     full_text = short_text & fmt" {remaining_hours}:{remaining_minutes:02}"
 
 
@@ -51,5 +51,5 @@ if remaining_time > 0:
 else:
     echo short_text
 echo short_text
-if status == "D" and (capacity/100) < threshold:
+if status == "Discharging" and (capacity/100) < threshold:
     echo GreenToRed(1 - capacity/100)
