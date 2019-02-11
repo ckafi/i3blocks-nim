@@ -1,0 +1,6 @@
+: foreach battery.nim cpu_usage.nim memory.nim loadavg.nim \
+ |> ^ nim c %f^ \
+    nim compile -d:release --opt:size %f; \
+    strip -s %o; \
+    rm -rf nimcache \
+ |> %B ^nimcache

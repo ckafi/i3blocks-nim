@@ -1,7 +1,7 @@
-nimcache
 tags
+.tup
 
-cpu_usage
 battery
-memory
+cpu_usage
 loadavg
+memory
