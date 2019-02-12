@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import os, cpuinfo, strutils
+import os, cpuinfo, strutils, strformat
 import colorscale
 
 let
@@ -25,7 +25,7 @@ let
     load = avgs[time_index].parseFloat()
     nproc = countProcessors()
 
-echo load # full_text
-echo load # short_text
+echo fmt"{load:.2f}" # full_text
+echo fmt"{load:.2f}" # short_text
 if load >= float(nproc):
     echo red_hex # color
