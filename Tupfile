@@ -1,4 +1,4 @@
-: foreach battery.nim cpu_usage.nim memory.nim loadavg.nim \
+: foreach battery.nim cpu_usage.nim memory.nim loadavg.nim volume.nim \
  |> ^ nim c %f^ \
     nim compile -d:release --opt:size %f; \
     strip -s %o; \
