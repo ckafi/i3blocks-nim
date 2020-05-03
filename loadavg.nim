@@ -24,8 +24,9 @@ let
     avgs = readFile("/proc/loadavg").split()
     load = avgs[time_index].parseFloat()
     nproc = countProcessors()
+    load_per_proc = load/float(nproc)
 
 echo fmt"{load:.2f}" # full_text
 echo fmt"{load:.2f}" # short_text
-if load >= float(nproc):
+if load_per_proc >= 1.0:
     echo red_hex # color
