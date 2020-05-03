@@ -41,16 +41,18 @@ proc HSVtoRGB(input: HSV): RGB =
               int((b+m)*244))
 
 proc LerpHSV(a,b: HSV, t:float): HSV =
-    (int(float(a.h) + float(b.h - a.h) * t),
-     int(float(a.s) + float(b.s - a.s) * t),
-     int(float(a.v) + float(b.v - a.v) * t))
+    let factor = if t > 1.0: 1.0
+                 else: t
+    (int(float(a.h) + float(b.h - a.h) * factor),
+     int(float(a.s) + float(b.s - a.s) * factor),
+     int(float(a.v) + float(b.v - a.v) * factor))
 
 
 const
     green_hsv: HSV = (120,100,100)
-    green_hex*     = HSVtoRGB(green_hsv).RGBasHex()  
+    green_hex*     = HSVtoRGB(green_hsv).RGBasHex()
     red_hsv  : HSV = (0  ,100,100)
-    red_hex*       = HSVtoRGB(red_hsv).RGBasHex()  
+    red_hex*       = HSVtoRGB(red_hsv).RGBasHex()
 
 proc GreenToRed*(t:float): string =
     LerpHSV(green_hsv,red_hsv,t).HSVtoRGB().RGBasHex()
